@@ -3,7 +3,7 @@ workflows:
     name: Android Workflow
     instance_type: mac_mini_m1
     max_build_duration: 120
-        flutter: stable
+        
     environment:
        
       android_signing:
@@ -18,7 +18,7 @@ workflows:
     #   vars:
     #     PACKAGE_NAME: "io.codemagic.flutteryaml" # <-- Put your package name here
     #     GOOGLE_PLAY_TRACK: "alpha"
-    #   flutter: stable
+      flutter: stable
     scripts:
       - name: Set up local.properties
         script: | 
