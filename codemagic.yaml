@@ -28,7 +28,7 @@ workflows:
       #   ignore_failure: true
       - name: Build AAB with Flutter
         script: |
-          flutter build appbundle --release
+          flutter build apk --debug
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
