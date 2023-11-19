@@ -3,59 +3,36 @@ workflows:
     name: Android Workflow
     instance_type: mac_mini_m1
     max_build_duration: 120
-        
     environment:
-       
       android_signing:
         - syruss_key
-
-
-
-
-      
-    #   groups:
-    #     - google_play # <-- (Includes GCLOUD_SERVICE_ACCOUNT_CREDENTIALS)
-    #   vars:
-    #     PACKAGE_NAME: "io.codemagic.flutteryaml" # <-- Put your package name here
-    #     GOOGLE_PLAY_TRACK: "alpha"
+      # groups:
+      #   - google_play # <-- (Includes GCLOUD_SERVICE_ACCOUNT_CREDENTIALS)
+      vars:
+        PACKAGE_NAME: "io.codemagic.flutteryaml" # <-- Put your package name here
+        # GOOGLE_PLAY_TRACK: "alpha"
       flutter: stable
     scripts:
       - name: Set up local.properties
-        script: | 
+        script: |
           echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
       - name: Get Flutter packages
-        script: | 
+        script: |
           flutter packages pub get
+      # - name: Flutter analyze
+      #   script: |
+      #     flutter analyze
+      # - name: Flutter unit tests
+      #   script: |
+      #     flutter test
+      #   ignore_failure: true
       - name: Build AAB with Flutter
-        script: | 
+        script: |
           flutter build appbundle --release
-      artifacts:
-        - build/**/outputs/**/*.aab
-        - build/**/outputs/**/mapping.txt
-        - flutter_drive.log
-      # - name: Set up local.properties
-    #     script: |
-    #       echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
-    #   - name: Get Flutter packages
-    #     script: |
-    #       flutter packages pub get
-    #   # - name: Flutter analyze
-    #   #   script: |
-    #   #     flutter analyze
-    #   # - name: Flutter unit tests
-    #   #   script: |
-    #   #     flutter test
-    #     # ignore_failure: true
-    #   - name: Build AAB with Flutter
-    #     script: |
-    #       BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks="$GOOGLE_PLAY_TRACK") + 1))      
-    #       flutter build appbundle --release \
-    #         --build-name=1.0.$BUILD_NUMBER \
-    #         --build-number=$BUILD_NUMBER
-    # artifacts:
-    #   - build/**/outputs/**/*.aab
-    #   - build/**/outputs/**/mapping.txt
-    #   - flutter_drive.log
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
     # publishing:
     #   email:
     #     recipients:
@@ -69,7 +46,30 @@ workflows:
     #     track: $GOOGLE_PLAY_TRACK
     #     submit_as_draft: true
   
-  
+          
+    # environment:
+       
+    #   android_signing:
+    #     - syruss_key
+
+
+    #   flutter: stable
+    # scripts:
+    #   - name: Set up local.properties
+    #     script: | 
+    #       echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+    #   - name: Get Flutter packages
+    #     script: | 
+    #       flutter packages pub get
+    #   - name: Build AAB with Flutter
+    #     script: | 
+    #       flutter build appbundle --release
+    #   artifacts:
+    #     - build/**/outputs/**/*.aab
+    #     - build/**/outputs/**/mapping.txt
+    #     - flutter_drive.log
+
+        
   # ios-workflow:
   #   name: iOS Workflow
   #   instance_type: mac_mini_m1
